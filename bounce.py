@@ -1,10 +1,13 @@
 import sys, pygame
 
 pygame.init()
+pygame.font.init()
+sysFont = pygame.font.SysFont("", 20)
 
 size = width, height = 320, 240
 speed = [200, 150]
 black = 0, 0, 0
+WHITE = [255, 255, 255]
 
 screen = pygame.display.set_mode(size)
 
@@ -15,7 +18,7 @@ clock = pygame.time.Clock()
 
 while 1:
 
-    dt = clock.tick(30)/1000
+    dt = clock.tick(120)/1000
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
@@ -27,6 +30,13 @@ while 1:
     if ballrect.top < 0 or ballrect.bottom > height:
         speed[1] = -speed[1]
 
+    fpstext = str(int(1.0/dt))
+    fpssurface = sysFont.render(fpstext, False, WHITE)
+    fpsrect = fpssurface.get_rect()
+    fpsrect.top = 1
+    fpsrect.left = 1
+
     screen.fill(black)
     screen.blit(ball, ballrect)
+    screen.blit(fpssurface, fpsrect)
     pygame.display.flip()
